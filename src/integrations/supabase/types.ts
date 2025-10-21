@@ -14,7 +14,315 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      attendance: {
+        Row: {
+          attendance_id: number
+          class_id: number
+          date: string
+          member_id: number
+        }
+        Insert: {
+          attendance_id?: number
+          class_id: number
+          date: string
+          member_id: number
+        }
+        Update: {
+          attendance_id?: number
+          class_id?: number
+          date?: string
+          member_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "class"
+            referencedColumns: ["class_id"]
+          },
+          {
+            foreignKeyName: "attendance_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "member"
+            referencedColumns: ["member_id"]
+          },
+        ]
+      }
+      class: {
+        Row: {
+          class_id: number
+          class_name: string
+          max_capacity: number
+          schedule_time: string
+          trainer_id: number | null
+        }
+        Insert: {
+          class_id?: number
+          class_name: string
+          max_capacity: number
+          schedule_time: string
+          trainer_id?: number | null
+        }
+        Update: {
+          class_id?: number
+          class_name?: string
+          max_capacity?: number
+          schedule_time?: string
+          trainer_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "trainer"
+            referencedColumns: ["trainer_id"]
+          },
+        ]
+      }
+      group_trainer: {
+        Row: {
+          max_classes: number
+          trainer_id: number
+        }
+        Insert: {
+          max_classes: number
+          trainer_id: number
+        }
+        Update: {
+          max_classes?: number
+          trainer_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_trainer_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: true
+            referencedRelation: "trainer"
+            referencedColumns: ["trainer_id"]
+          },
+        ]
+      }
+      member: {
+        Row: {
+          email: string
+          first: string
+          join_date: string
+          last: string
+          member_id: number
+          membership_id: number | null
+          middle: string | null
+          phone_number: string
+          trainer_id: number | null
+        }
+        Insert: {
+          email: string
+          first: string
+          join_date?: string
+          last: string
+          member_id?: number
+          membership_id?: number | null
+          middle?: string | null
+          phone_number: string
+          trainer_id?: number | null
+        }
+        Update: {
+          email?: string
+          first?: string
+          join_date?: string
+          last?: string
+          member_id?: number
+          membership_id?: number | null
+          middle?: string | null
+          phone_number?: string
+          trainer_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_membership_id_fkey"
+            columns: ["membership_id"]
+            isOneToOne: false
+            referencedRelation: "membership"
+            referencedColumns: ["plan_id"]
+          },
+          {
+            foreignKeyName: "member_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "trainer"
+            referencedColumns: ["trainer_id"]
+          },
+        ]
+      }
+      membership: {
+        Row: {
+          duration_months: number
+          plan_id: number
+          plan_name: string
+        }
+        Insert: {
+          duration_months: number
+          plan_id?: number
+          plan_name: string
+        }
+        Update: {
+          duration_months?: number
+          plan_id?: number
+          plan_name?: string
+        }
+        Relationships: []
+      }
+      personal_trainer: {
+        Row: {
+          max_members: number
+          trainer_id: number
+        }
+        Insert: {
+          max_members: number
+          trainer_id: number
+        }
+        Update: {
+          max_members?: number
+          trainer_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "personal_trainer_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: true
+            referencedRelation: "trainer"
+            referencedColumns: ["trainer_id"]
+          },
+        ]
+      }
+      take: {
+        Row: {
+          class_id: number
+          member_id: number
+        }
+        Insert: {
+          class_id: number
+          member_id: number
+        }
+        Update: {
+          class_id?: number
+          member_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "take_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "class"
+            referencedColumns: ["class_id"]
+          },
+          {
+            foreignKeyName: "take_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "member"
+            referencedColumns: ["member_id"]
+          },
+        ]
+      }
+      teach: {
+        Row: {
+          class_id: number
+          trainer_id: number
+        }
+        Insert: {
+          class_id: number
+          trainer_id: number
+        }
+        Update: {
+          class_id?: number
+          trainer_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teach_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "class"
+            referencedColumns: ["class_id"]
+          },
+          {
+            foreignKeyName: "teach_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "group_trainer"
+            referencedColumns: ["trainer_id"]
+          },
+        ]
+      }
+      train: {
+        Row: {
+          member_id: number
+          trainer_id: number
+        }
+        Insert: {
+          member_id: number
+          trainer_id: number
+        }
+        Update: {
+          member_id?: number
+          trainer_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "train_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "member"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "train_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "personal_trainer"
+            referencedColumns: ["trainer_id"]
+          },
+        ]
+      }
+      trainer: {
+        Row: {
+          email: string
+          first: string
+          hourly_rate: number
+          join_date: string
+          last: string
+          middle: string | null
+          phone_number: string
+          rating: number | null
+          trainer_id: number
+        }
+        Insert: {
+          email: string
+          first: string
+          hourly_rate: number
+          join_date?: string
+          last: string
+          middle?: string | null
+          phone_number: string
+          rating?: number | null
+          trainer_id?: number
+        }
+        Update: {
+          email?: string
+          first?: string
+          hourly_rate?: number
+          join_date?: string
+          last?: string
+          middle?: string | null
+          phone_number?: string
+          rating?: number | null
+          trainer_id?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

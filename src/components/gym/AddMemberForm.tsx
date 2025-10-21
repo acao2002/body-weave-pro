@@ -225,7 +225,6 @@ const AddMemberForm = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="">No Trainer</SelectItem>
                     {trainers?.map((trainer) => (
                       <SelectItem key={trainer.trainer_id} value={trainer.trainer_id.toString()}>
                         {trainer.first} {trainer.last}

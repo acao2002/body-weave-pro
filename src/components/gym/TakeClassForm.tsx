@@ -72,7 +72,7 @@ const TakeClassForm = () => {
 
       // Check if already registered
       const { data: existingEnrollment } = await supabase
-        .from("take")
+        .from("takeclass")
         .select("class_id")
         .eq("class_id", parseInt(values.class_id))
         .eq("member_id", parseInt(values.member_id))
@@ -85,7 +85,7 @@ const TakeClassForm = () => {
 
       // Count current enrollments
       const { count } = await supabase
-        .from("take")
+        .from("takeclass")
         .select("*", { count: "exact", head: true })
         .eq("class_id", parseInt(values.class_id));
 
@@ -96,7 +96,7 @@ const TakeClassForm = () => {
 
       // Enroll member
       const { error } = await supabase
-        .from("take")
+        .from("takeclass")
         .insert({
           class_id: parseInt(values.class_id),
           member_id: parseInt(values.member_id),

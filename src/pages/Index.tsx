@@ -9,6 +9,10 @@ import RecordAttendanceForm from "@/components/gym/RecordAttendanceForm";
 import MemberScheduleView from "@/components/gym/MemberScheduleView";
 import ClassFillRateView from "@/components/gym/ClassFillRateView";
 import AssignTrainerForm from "@/components/gym/AssignTrainerForm";
+import MembersListView from "@/components/gym/MembersListView";
+import TrainersListView from "@/components/gym/TrainersListView";
+import ClassesListView from "@/components/gym/ClassesListView";
+import MembershipsListView from "@/components/gym/MembershipsListView";
 
 const Index = () => {
   return (
@@ -26,33 +30,93 @@ const Index = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="add-member" className="space-y-6">
-          <TabsList className="grid grid-cols-4 lg:grid-cols-8 gap-2 h-auto p-2 bg-card">
-            <TabsTrigger value="add-member" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Add Member
+        <Tabs defaultValue="view-members" className="space-y-6">
+          <TabsList className="grid grid-cols-3 lg:grid-cols-6 gap-2 h-auto p-2 bg-card">
+            <TabsTrigger value="view-members" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              📋 Members
             </TabsTrigger>
-            <TabsTrigger value="update-member" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Update Contact
+            <TabsTrigger value="view-trainers" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              💪 Trainers
             </TabsTrigger>
-            <TabsTrigger value="delete-member" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Delete Member
+            <TabsTrigger value="view-classes" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              🏋️ Classes
             </TabsTrigger>
-            <TabsTrigger value="take-class" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Enroll Class
-            </TabsTrigger>
-            <TabsTrigger value="attendance" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Attendance
-            </TabsTrigger>
-            <TabsTrigger value="schedule" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Schedule
+            <TabsTrigger value="view-memberships" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              🎫 Memberships
             </TabsTrigger>
             <TabsTrigger value="fill-rate" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Fill Rate
+              📊 Fill Rate
             </TabsTrigger>
-            <TabsTrigger value="assign-trainer" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              Assign PT
+            <TabsTrigger value="schedule" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              📅 Schedule
+            </TabsTrigger>
+            <TabsTrigger value="add-member" className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground">
+              ➕ Add Member
+            </TabsTrigger>
+            <TabsTrigger value="update-member" className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground">
+              ✏️ Update
+            </TabsTrigger>
+            <TabsTrigger value="delete-member" className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground">
+              🗑️ Delete
+            </TabsTrigger>
+            <TabsTrigger value="take-class" className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground">
+              📝 Enroll
+            </TabsTrigger>
+            <TabsTrigger value="attendance" className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground">
+              ✅ Attendance
+            </TabsTrigger>
+            <TabsTrigger value="assign-trainer" className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground">
+              👤 Assign PT
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="view-members">
+            <Card>
+              <CardHeader>
+                <CardTitle>All Members</CardTitle>
+                <CardDescription>View all registered gym members</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <MembersListView />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="view-trainers">
+            <Card>
+              <CardHeader>
+                <CardTitle>All Trainers</CardTitle>
+                <CardDescription>View all personal and group trainers</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <TrainersListView />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="view-classes">
+            <Card>
+              <CardHeader>
+                <CardTitle>All Classes</CardTitle>
+                <CardDescription>View all available fitness classes</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ClassesListView />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="view-memberships">
+            <Card>
+              <CardHeader>
+                <CardTitle>Membership Plans</CardTitle>
+                <CardDescription>View all available membership plans</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <MembershipsListView />
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="add-member">
             <Card>
@@ -114,18 +178,6 @@ const Index = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="schedule">
-            <Card>
-              <CardHeader>
-                <CardTitle>Member Schedule</CardTitle>
-                <CardDescription>View all classes enrolled by a member</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <MemberScheduleView />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
           <TabsContent value="fill-rate">
             <Card>
               <CardHeader>
@@ -134,6 +186,18 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <ClassFillRateView />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="schedule">
+            <Card>
+              <CardHeader>
+                <CardTitle>Member Schedule</CardTitle>
+                <CardDescription>View all classes enrolled by a member</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <MemberScheduleView />
               </CardContent>
             </Card>
           </TabsContent>

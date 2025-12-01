@@ -42,6 +42,13 @@ export type Database = {
             referencedColumns: ["class_id"]
           },
           {
+            foreignKeyName: "attendance_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "class_fill_rate"
+            referencedColumns: ["class_id"]
+          },
+          {
             foreignKeyName: "attendance_member_id_fkey"
             columns: ["member_id"]
             isOneToOne: false
@@ -219,6 +226,13 @@ export type Database = {
             referencedColumns: ["class_id"]
           },
           {
+            foreignKeyName: "takeclass_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "class_fill_rate"
+            referencedColumns: ["class_id"]
+          },
+          {
             foreignKeyName: "takeclass_member_id_fkey"
             columns: ["member_id"]
             isOneToOne: false
@@ -246,6 +260,13 @@ export type Database = {
             columns: ["class_id"]
             isOneToOne: false
             referencedRelation: "class"
+            referencedColumns: ["class_id"]
+          },
+          {
+            foreignKeyName: "teach_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "class_fill_rate"
             referencedColumns: ["class_id"]
           },
           {
@@ -325,10 +346,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      class_fill_rate: {
+        Row: {
+          class_id: number | null
+          class_name: string | null
+          enrolled: number | null
+          fill_percent: number | null
+          max_capacity: number | null
+          schedule_time: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      member_schedule: {
+        Args: { p_member_id: number }
+        Returns: {
+          class_id: number
+          class_name: string
+          member_first: string
+          member_id: number
+          member_last: string
+          schedule_time: string
+          trainer_first: string
+          trainer_id: number
+          trainer_last: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

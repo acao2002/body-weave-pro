@@ -22,7 +22,7 @@ export type Database = {
           member_id: number
         }
         Insert: {
-          attendance_id: number
+          attendance_id?: number
           class_id: number
           date: string
           member_id: number
@@ -59,7 +59,7 @@ export type Database = {
           trainer_id: number
         }
         Insert: {
-          class_id: number
+          class_id?: number
           class_name: string
           max_capacity: number
           schedule_time: string
@@ -122,7 +122,7 @@ export type Database = {
           first: string
           join_date: string
           last: string
-          member_id: number
+          member_id?: number
           membership_id: number
           middle?: string | null
           phone_number: string
@@ -164,7 +164,7 @@ export type Database = {
         }
         Insert: {
           duration_months: number
-          plan_id: number
+          plan_id?: number
           plan_name: string
         }
         Update: {
@@ -308,7 +308,7 @@ export type Database = {
           middle?: string | null
           phone_number: string
           rating?: number | null
-          trainer_id: number
+          trainer_id?: number
         }
         Update: {
           email?: string

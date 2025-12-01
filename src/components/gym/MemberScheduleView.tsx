@@ -42,7 +42,7 @@ const MemberScheduleView = () => {
 
       // Get all classes the member is taking
       const { data: takeData, error: takeError } = await supabase
-        .from("take")
+        .from("takeclass")
         .select("class_id")
         .eq("member_id", parseInt(memberId));
 

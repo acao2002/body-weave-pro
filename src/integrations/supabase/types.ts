@@ -22,7 +22,7 @@ export type Database = {
           member_id: number
         }
         Insert: {
-          attendance_id?: number
+          attendance_id: number
           class_id: number
           date: string
           member_id: number
@@ -56,21 +56,21 @@ export type Database = {
           class_name: string
           max_capacity: number
           schedule_time: string
-          trainer_id: number | null
+          trainer_id: number
         }
         Insert: {
-          class_id?: number
+          class_id: number
           class_name: string
           max_capacity: number
           schedule_time: string
-          trainer_id?: number | null
+          trainer_id: number
         }
         Update: {
           class_id?: number
           class_name?: string
           max_capacity?: number
           schedule_time?: string
-          trainer_id?: number | null
+          trainer_id?: number
         }
         Relationships: [
           {
@@ -112,7 +112,7 @@ export type Database = {
           join_date: string
           last: string
           member_id: number
-          membership_id: number | null
+          membership_id: number
           middle: string | null
           phone_number: string
           trainer_id: number | null
@@ -120,10 +120,10 @@ export type Database = {
         Insert: {
           email: string
           first: string
-          join_date?: string
+          join_date: string
           last: string
-          member_id?: number
-          membership_id?: number | null
+          member_id: number
+          membership_id: number
           middle?: string | null
           phone_number: string
           trainer_id?: number | null
@@ -134,7 +134,7 @@ export type Database = {
           join_date?: string
           last?: string
           member_id?: number
-          membership_id?: number | null
+          membership_id?: number
           middle?: string | null
           phone_number?: string
           trainer_id?: number | null
@@ -164,7 +164,7 @@ export type Database = {
         }
         Insert: {
           duration_months: number
-          plan_id?: number
+          plan_id: number
           plan_name: string
         }
         Update: {
@@ -197,7 +197,7 @@ export type Database = {
           },
         ]
       }
-      take: {
+      takeclass: {
         Row: {
           class_id: number
           member_id: number
@@ -212,14 +212,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "take_class_id_fkey"
+            foreignKeyName: "takeclass_class_id_fkey"
             columns: ["class_id"]
             isOneToOne: false
             referencedRelation: "class"
             referencedColumns: ["class_id"]
           },
           {
-            foreignKeyName: "take_member_id_fkey"
+            foreignKeyName: "takeclass_member_id_fkey"
             columns: ["member_id"]
             isOneToOne: false
             referencedRelation: "member"
@@ -303,12 +303,12 @@ export type Database = {
           email: string
           first: string
           hourly_rate: number
-          join_date?: string
+          join_date: string
           last: string
           middle?: string | null
           phone_number: string
           rating?: number | null
-          trainer_id?: number
+          trainer_id: number
         }
         Update: {
           email?: string

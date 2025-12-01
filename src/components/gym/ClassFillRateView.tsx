@@ -38,7 +38,7 @@ const ClassFillRateView = () => {
 
       for (const cls of classes || []) {
         const { count } = await supabase
-          .from("take")
+          .from("takeclass")
           .select("*", { count: "exact", head: true })
           .eq("class_id", cls.class_id);
 

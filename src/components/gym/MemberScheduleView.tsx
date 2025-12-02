@@ -40,58 +40,28 @@ const MemberScheduleView = () => {
         return;
       }
 
-      // Get all classes the member is taking
-      const { data: takeData, error: takeError } = await supabase
-        .from("takeclass")
-        .select("class_id")
-        .eq("member_id", parseInt(memberId));
+      // Use the member_schedule function which joins member, takeclass, class, and trainer tables
+      const { data, error } = await supabase.rpc("member_schedule", {
+        p_member_id: parseInt(memberId),
+      });
 
-      if (takeError) throw takeError;
+      if (error) throw error;
 
-      if (!takeData || takeData.length === 0) {
+      if (!data || data.length === 0) {
         setSchedule([]);
         toast.info(`${member.first} ${member.last} is not enrolled in any classes`);
         return;
       }
 
-      // Get class details with trainer info
-      const classIds = takeData.map((t) => t.class_id);
-      const { data: classData, error: classError } = await supabase
-        .from("class")
-        .select("class_id, class_name, schedule_time, trainer_id")
-        .in("class_id", classIds);
+      const scheduleItems: ScheduleItem[] = data.map((row: any) => ({
+        class_id: row.class_id,
+        class_name: row.class_name,
+        schedule_time: row.schedule_time,
+        trainer_first: row.trainer_first,
+        trainer_last: row.trainer_last,
+      }));
 
-      if (classError) throw classError;
-
-      // Get trainer details
-      const scheduleWithTrainers: ScheduleItem[] = [];
-      for (const cls of classData || []) {
-        let trainerFirst = "No";
-        let trainerLast = "Trainer";
-
-        if (cls.trainer_id) {
-          const { data: trainer } = await supabase
-            .from("trainer")
-            .select("first, last")
-            .eq("trainer_id", cls.trainer_id)
-            .maybeSingle();
-
-          if (trainer) {
-            trainerFirst = trainer.first;
-            trainerLast = trainer.last;
-          }
-        }
-
-        scheduleWithTrainers.push({
-          class_id: cls.class_id,
-          class_name: cls.class_name,
-          schedule_time: cls.schedule_time,
-          trainer_first: trainerFirst,
-          trainer_last: trainerLast,
-        });
-      }
-
-      setSchedule(scheduleWithTrainers);
+      setSchedule(scheduleItems);
       toast.success(`Schedule loaded for ${member.first} ${member.last}`);
     } catch (error: any) {
       toast.error(error.message || "Failed to fetch schedule");

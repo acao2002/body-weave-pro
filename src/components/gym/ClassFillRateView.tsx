@@ -25,35 +25,23 @@ const ClassFillRateView = () => {
   const fetchFillRates = async () => {
     setIsLoading(true);
     try {
-      // Get all classes
-      const { data: classes, error: classError } = await supabase
-        .from("class")
-        .select("class_id, class_name, schedule_time, max_capacity")
+      // Use the class_fill_rate view which joins class and takeclass tables
+      // and aggregates enrollment data with COUNT function
+      const { data, error } = await supabase
+        .from("class_fill_rate")
+        .select("*")
         .order("schedule_time");
 
-      if (classError) throw classError;
+      if (error) throw error;
 
-      // Calculate fill rate for each class
-      const fillRateData: FillRateData[] = [];
-
-      for (const cls of classes || []) {
-        const { count } = await supabase
-          .from("takeclass")
-          .select("*", { count: "exact", head: true })
-          .eq("class_id", cls.class_id);
-
-        const enrolled = count || 0;
-        const fillPercent = cls.max_capacity > 0 ? (enrolled / cls.max_capacity) * 100 : 0;
-
-        fillRateData.push({
-          class_id: cls.class_id,
-          class_name: cls.class_name,
-          schedule_time: cls.schedule_time,
-          enrolled,
-          max_capacity: cls.max_capacity,
-          fill_percent: Math.round(fillPercent),
-        });
-      }
+      const fillRateData: FillRateData[] = (data || []).map((row) => ({
+        class_id: row.class_id || 0,
+        class_name: row.class_name || "",
+        schedule_time: row.schedule_time || "",
+        enrolled: Number(row.enrolled) || 0,
+        max_capacity: row.max_capacity || 0,
+        fill_percent: Math.round(Number(row.fill_percent) || 0),
+      }));
 
       setFillRates(fillRateData);
     } catch (error: any) {
